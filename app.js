@@ -166,18 +166,17 @@ DELETES
 app.delete('/lotes/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const [rows] = await db.query('DELETE FROM lotes_produccion WHERE id = ?', [id]);
+    const [result] = await db.query('DELETE FROM lotes_produccion WHERE id = ?', [id]);
     
-    if (rows.length === 0) {
+    if (result.affectedRows === 0) {
       return res.status(404).json({ mensaje: 'Lote no encontrado' });
     }
     
-    res.json(rows[0]);
+    res.json({ mensaje: 'Lote eliminado con éxito', id: id });
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
-
 app.delete('/polizas/:id', async (req, res) => {
   try {
     const id = req.params.id;
